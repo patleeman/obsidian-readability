@@ -1,6 +1,5 @@
 import { Plugin } from "obsidian";
 import generateHighlightFieldPlugin from "./plugin";
-import { highlightTheme } from "./theme";
 
 export interface ObsidianReadabilitySettings {
 	readingAge: number;
@@ -20,12 +19,10 @@ export default class ObsidianReadabilityPlugin extends Plugin {
 	async onload() {
 		await this.loadSettings();
 		const Plugin = generateHighlightFieldPlugin(this.settings);
-		this.registerEditorExtension([Plugin, highlightTheme]);
+		this.registerEditorExtension([Plugin]);
 	}
 
-	onunload() {
-		console.log("Obsidian Readability Unloaded");
-	}
+	onunload() {}
 
 	async loadSettings() {
 		this.settings = Object.assign(

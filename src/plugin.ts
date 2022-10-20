@@ -5,8 +5,12 @@ import retextEnglish from "retext-english";
 import retextStringify from "retext-stringify";
 import retextReadability from "retext-readability";
 import retextPassive from "retext-passive";
-import { THEME_CLASS_NAMES } from "./theme";
 import { ObsidianReadabilitySettings } from "./main";
+
+export const THEME_CLASS_NAMES = {
+	hardToRead: "cm-rp-readability",
+	passive: "cm-rp-passive",
+};
 
 function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 	return StateField.define<DecorationSet>({
@@ -35,7 +39,7 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 				console.log(message.source);
 				decoration.push(
 					Decoration.mark({
-						class: getClassName(message.source),
+						class: getClassNameFromMessageSource(message.source),
 					}).range(
 						message.position?.start?.offset || 0,
 						message.position?.end?.offset
@@ -52,12 +56,12 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 	});
 }
 
-function getClassName(source: string | null): string {
+function getClassNameFromMessageSource(source: string | null): string {
 	switch (source) {
 		case "retext-readability":
-			return THEME_CLASS_NAMES.hardToRead.name;
+			return THEME_CLASS_NAMES.hardToRead;
 		case "retext-passive":
-			return THEME_CLASS_NAMES.passive.name;
+			return THEME_CLASS_NAMES.passive;
 		default:
 			return "";
 	}

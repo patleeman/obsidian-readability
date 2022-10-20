@@ -6,3 +6,16 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+.theme-light .cm-rp-readability {
+	background-color: rgb(211, 215, 228);
+}
+.theme-light .cm-rp-passive {
+	background-color: rgb(255, 187, 170);
+}
+
+.theme-dark .cm-rp-readability {
+	background-color: rgb(60, 69, 97);
+}
+.theme-dark .cm-rp-passive {
+	background-color: rgb(60, 69, 97);
+}
