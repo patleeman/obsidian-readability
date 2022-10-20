@@ -1,13 +1,17 @@
 import { Plugin } from "obsidian";
-import ReadabilityPlugin from "./plugin";
-import HighlightTheme from "./theme";
+import generateHighlightFieldPlugin from "./plugin";
+import { highlightTheme } from "./theme";
 
-interface ObsidianReadabilitySettings {
+export interface ObsidianReadabilitySettings {
 	readingAge: number;
+	enableReadabilityCheck: boolean;
+	enablePassiveCheck: boolean;
 }
 
 const DEFAULT_SETTINGS: ObsidianReadabilitySettings = {
-	readingAge: 16,
+	readingAge: 18,
+	enableReadabilityCheck: true,
+	enablePassiveCheck: true,
 };
 
 export default class ObsidianReadabilityPlugin extends Plugin {
@@ -15,12 +19,8 @@ export default class ObsidianReadabilityPlugin extends Plugin {
 
 	async onload() {
 		await this.loadSettings();
-		console.log("Obsidian Readability Loaded");
-		this.registerEditorExtension([
-			ReadabilityPlugin,
-			HighlightTheme,
-			//readabilityLinter
-		]);
+		const Plugin = generateHighlightFieldPlugin(this.settings);
+		this.registerEditorExtension([Plugin, highlightTheme]);
 	}
 
 	onunload() {

@@ -7,17 +7,28 @@ import { EditorView } from "@codemirror/view";
 export const THEME_CLASS_NAMES = {
 	hardToRead: {
 		name: "cm-rp-readability",
-		color: "rgba(86, 99, 138, 1)",
+		color: {
+			dark: "rgb(60, 69, 97)",
+			light: "rgb(211, 215, 228)",
+		},
+	},
+	passive: {
+		name: "cm-rp-passive",
+		color: {
+			dark: "rgb(128, 25, 0)",
+			light: "rgb(255, 187, 170)",
+		},
 	},
 };
 
-const highlightTheme = EditorView.theme(
+export const highlightTheme = EditorView.theme(
 	{
 		[`.${THEME_CLASS_NAMES.hardToRead.name}`]: {
-			backgroundColor: THEME_CLASS_NAMES.hardToRead.color,
+			backgroundColor: THEME_CLASS_NAMES.hardToRead.color.dark,
+		},
+		[`.${THEME_CLASS_NAMES.passive.name}`]: {
+			backgroundColor: THEME_CLASS_NAMES.passive.color.dark,
 		},
 	},
 	{ dark: true }
 );
-
-export default highlightTheme;
