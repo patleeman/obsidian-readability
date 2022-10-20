@@ -24,8 +24,10 @@
 	"dependencies": {
 		"retext": "^8.1.0",
 		"retext-english": "^4.1.0",
+		"retext-intensify": "^6.2.0",
 		"retext-passive": "^4.2.0",
 		"retext-readability": "^7.2.0",
+		"retext-simplify": "^7.2.0",
 		"retext-stringify": "^3.1.0"
 	}
 }

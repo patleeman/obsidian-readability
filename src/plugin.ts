@@ -5,11 +5,15 @@ import retextEnglish from "retext-english";
 import retextStringify from "retext-stringify";
 import retextReadability from "retext-readability";
 import retextPassive from "retext-passive";
+import retextIntensify from "retext-intensify";
+import retextSimplify from "retext-simplify";
 import { ObsidianReadabilitySettings } from "./main";
 
 export const THEME_CLASS_NAMES = {
 	hardToRead: "cm-rp-readability",
 	passive: "cm-rp-passive",
+	simplify: "cm-rp-simplify",
+	intensify: "cm-rp-intensify",
 };
 
 function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
@@ -22,13 +26,19 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 			const updatedDoc = tr.newDoc.sliceString(0);
 			let processor = unified().use(retextEnglish);
 
-			if (settings.enablePassiveCheck) {
+			if (settings.checkForPassiveVoice) {
 				processor = processor.use(retextPassive);
 			}
-			if (settings.enableReadabilityCheck) {
+			if (settings.checkReadability) {
 				processor = processor.use(retextReadability, {
 					age: settings.readingAge,
 				});
+			}
+			if (settings.increaseIntensity) {
+				processor = processor.use(retextIntensify);
+			}
+			if (settings.simplifyText) {
+				processor = processor.use(retextSimplify);
 			}
 
 			processor = processor.use(retextStringify);
@@ -62,6 +72,10 @@ function getClassNameFromMessageSource(source: string | null): string {
 			return THEME_CLASS_NAMES.hardToRead;
 		case "retext-passive":
 			return THEME_CLASS_NAMES.passive;
+		case "retext-simplify":
+			return THEME_CLASS_NAMES.simplify;
+		case "retext-intensify":
+			return THEME_CLASS_NAMES.intensify;
 		default:
 			return "";
 	}

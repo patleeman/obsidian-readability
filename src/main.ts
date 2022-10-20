@@ -3,14 +3,18 @@ import generateHighlightFieldPlugin from "./plugin";
 
 export interface ObsidianReadabilitySettings {
 	readingAge: number;
-	enableReadabilityCheck: boolean;
-	enablePassiveCheck: boolean;
+	checkReadability: boolean;
+	checkForPassiveVoice: boolean;
+	increaseIntensity: boolean;
+	simplifyText: boolean;
 }
 
 const DEFAULT_SETTINGS: ObsidianReadabilitySettings = {
 	readingAge: 18,
-	enableReadabilityCheck: true,
-	enablePassiveCheck: true,
+	checkReadability: true,
+	checkForPassiveVoice: true,
+	increaseIntensity: true,
+	simplifyText: true,
 };
 
 export default class ObsidianReadabilityPlugin extends Plugin {
