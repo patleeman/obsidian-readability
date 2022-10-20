@@ -1,42 +1,42 @@
-import { RangeSetBuilder } from "@codemirror/state";
-import {
-	Decoration,
-	DecorationSet,
-	EditorView,
-	PluginValue,
-	ViewPlugin,
-	ViewUpdate,
-} from "@codemirror/view";
+import { EditorView, Decoration, DecorationSet } from "@codemirror/view";
+import { StateField, EditorState } from "@codemirror/state";
+import { unified } from "unified";
+import retextEnglish from "retext-english";
+import retextStringify from "retext-stringify";
+import retextReadability from "retext-readability";
+import { THEME_CLASS_NAMES } from "./theme";
 
-class HighlightPlugin implements PluginValue {
-	decorations: DecorationSet;
-	view: EditorView;
+const underlineField = StateField.define<DecorationSet>({
+	create(state: EditorState) {
+		return Decoration.none;
+	},
+	update(highlights, tr) {
+		const updatedHighlights = highlights.map(tr.changes);
+		const updatedDoc = tr.newDoc.sliceString(0);
+		const file = unified()
+			.use(retextEnglish)
+			.use(retextReadability, { age: 18 })
+			.use(retextStringify)
+			.processSync(updatedDoc);
 
-	constructor(view: EditorView) {
-		this.view = view;
-	}
-
-	update(update: ViewUpdate) {
-		if (update.docChanged || update.viewportChanged) {
-			const builder = new RangeSetBuilder<Decoration>();
-
-			for (const { from, to } of update.view.visibleRanges) {
-				console.log(from, to);
-				console.log(this.view);
-				// Extract the visible range from the document
-
-				// Run the visible range through the editor
-
-				// Highlight using builder.add
-			}
-
-			return builder.finish();
+		const decoration = [];
+		for (const message of file.messages) {
+			decoration.push(
+				Decoration.mark({
+					class: THEME_CLASS_NAMES.hardToRead.name,
+				}).range(
+					message.position?.start?.offset || 0,
+					message.position?.end?.offset
+				)
+			);
 		}
-	}
 
-	destroy() {
-		// ...
-	}
-}
+		return updatedHighlights.update({
+			add: decoration,
+			sort: true,
+		});
+	},
+	provide: (f) => EditorView.decorations.from(f),
+});
 
-export const highlightPlugin = ViewPlugin.fromClass(HighlightPlugin);
+export default underlineField;
