@@ -11,6 +11,10 @@ Retext plugins available:
 -   [retext-passive](https://github.com/retextjs/retext-passive)
 -   [retext-simplify](https://github.com/retextjs/retext-simplify)
 
+## Roadmap
+
+[See here](https://github.com/users/patleeman/projects/1)
+
 ## Releasing new releases
 
 -   Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
