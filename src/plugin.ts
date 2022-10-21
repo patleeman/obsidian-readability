@@ -16,51 +16,65 @@ export const THEME_CLASS_NAMES = {
 	intensify: "cm-rp-intensify",
 };
 
+function initializeProcessor(settings: ObsidianReadabilitySettings) {
+	let processor = unified().use(retextEnglish);
+
+	if (settings.checkForPassiveVoice) {
+		processor = processor.use(retextPassive);
+	}
+	if (settings.checkReadability) {
+		processor = processor.use(retextReadability, {
+			age: settings.readingAge,
+		});
+	}
+	if (settings.increaseIntensity) {
+		processor = processor.use(retextIntensify);
+	}
+	if (settings.simplifyText) {
+		processor = processor.use(retextSimplify);
+	}
+
+	processor = processor.use(retextStringify);
+	return processor;
+}
+
 function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 	return StateField.define<DecorationSet>({
 		create() {
 			return Decoration.none;
 		},
 		update(highlights, tr) {
-			const updatedHighlights = highlights.map(tr.changes);
-			const updatedDoc = tr.newDoc.sliceString(0);
-			let processor = unified().use(retextEnglish);
-
-			if (settings.checkForPassiveVoice) {
-				processor = processor.use(retextPassive);
-			}
-			if (settings.checkReadability) {
-				processor = processor.use(retextReadability, {
-					age: settings.readingAge,
-				});
-			}
-			if (settings.increaseIntensity) {
-				processor = processor.use(retextIntensify);
-			}
-			if (settings.simplifyText) {
-				processor = processor.use(retextSimplify);
-			}
-
-			processor = processor.use(retextStringify);
-			const file = processor.processSync(updatedDoc);
-			console.log(file);
-			const decoration = [];
+			const processor = initializeProcessor(settings);
+			const file = processor.processSync(tr.newDoc.sliceString(0));
+			highlights = highlights.map(tr.changes);
 			for (const message of file.messages) {
-				console.log(message.source);
-				decoration.push(
-					Decoration.mark({
-						class: getClassNameFromMessageSource(message.source),
-					}).range(
-						message.position?.start?.offset || 0,
-						message.position?.end?.offset
-					)
+				// Check if this range has a mark already.
+				const from = message.position?.start?.offset || 0;
+				const to = message.position?.end?.offset || 0;
+				const elementClass = getClassNameFromMessageSource(
+					message.source
 				);
-			}
+				console.log(message.source);
+				let skip = false;
+				highlights.between(from, to, (from, to, value) => {
+					if (value.class === elementClass) {
+						skip = true;
+						return false;
+					}
+				});
 
-			return updatedHighlights.update({
-				add: decoration,
-				sort: true,
-			});
+				if (!skip) {
+					highlights = highlights.update({
+						add: [
+							Decoration.mark({
+								class: elementClass,
+								attributes: { title: message.reason },
+							}).range(from, to),
+						],
+					});
+				}
+			}
+			return highlights;
 		},
 		provide: (f) => EditorView.decorations.from(f),
 	});
