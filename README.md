@@ -9,6 +9,8 @@ Retext plugins available:
 -   [retext-passive](https://github.com/retextjs/retext-passive)
 -   [retext-simplify](https://github.com/retextjs/retext-simplify)
 
+Show or hide highlights with the `Obsidian Readability: Toggle highlights` command.
+
 ## Roadmap
 
 [See here](https://github.com/users/patleeman/projects/1)
