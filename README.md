@@ -1,8 +1,6 @@
 # Obsidian Readability
 
-This plugin leverages [Retext](https://github.com/retextjs/retext) and its amazing plugin ecosystem to suggest improvements to your writing.
-
-Note: This plugin only supports English at the moment.
+This plugin leverages [Retext](https://github.com/retextjs/retext) and its amazing plugin ecosystem to suggest improvements to your writing. It will highlight text in Obsidian and provide mouseover tooltips on improvements you can make to your writing.
 
 Retext plugins available:
 
@@ -16,6 +14,8 @@ Retext plugins available:
 [See here](https://github.com/users/patleeman/projects/1)
 
 ## Disclaimer
+
+This plugin only supports English at the moment. I have no plans to add any other languages since I don't speak any and wouldn't have any idea if its useful or not. Feel free to send a PR with additional languages.
 
 I provide no guarantees for any of this code. This plugin glues Retext to Obsidian and that's about the extent of my expertise in the field of readability.
 
