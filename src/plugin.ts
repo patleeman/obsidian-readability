@@ -54,7 +54,6 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 				const elementClass = getClassNameFromMessageSource(
 					message.source
 				);
-				console.log(message.source);
 				let skip = false;
 				highlights.between(from, to, (from, to, value) => {
 					if (value.class === elementClass) {
