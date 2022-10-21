@@ -15,6 +15,10 @@ Show or hide highlights with the `Obsidian Readability: Toggle highlights` comma
 
 [See here](https://github.com/users/patleeman/projects/1)
 
+## Screenshot
+
+![](screenshot.png)
+
 ## Disclaimer
 
 This plugin only supports English at the moment. I have no plans to add any other languages since I don't speak any and wouldn't have any idea if its useful or not. Feel free to send a PR with additional languages.
