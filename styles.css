@@ -7,27 +7,27 @@ If your plugin does not need CSS, delete this file.
 
 */
 .or-show.theme-light .cm-rp-readability {
-	background-color: rgb(211, 215, 228);
+	background-color: rgba(201, 159, 174, 0.6);
 }
 .or-show.theme-light .cm-rp-passive {
-	background-color: rgb(255, 187, 170);
+	background-color: rgba(184, 232, 252, 0.6);
 }
 .or-show.theme-light .cm-rp-simplify {
-	background-color: rgb(255, 187, 170);
+	background-color: rgba(227, 193, 185, 0.6);
 }
 .or-show.theme-light .cm-rp-intensify {
-	background-color: rgb(255, 187, 170);
+	background-color: rgba(188, 226, 158, 0.6);
 }
 
 .or-show.theme-dark .cm-rp-readability {
-	background-color: rgb(60, 69, 97);
+	background-color: rgba(135, 76, 98, 0.4);
 }
 .or-show.theme-dark .cm-rp-passive {
-	background-color: rgb(170, 34, 0);
+	background-color: rgba(7, 120, 167, 0.4);
 }
 .or-show.theme-dark .cm-rp-simplify {
-	background-color: rgb(255, 187, 170);
+	background-color: rgba(201, 132, 116, 0.4);
 }
 .or-show.theme-dark .cm-rp-intensify {
-	background-color: rgb(255, 187, 170);
+	background-color: rgba(71, 118, 35, 0.4);
 }
