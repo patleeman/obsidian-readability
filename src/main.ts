@@ -1,6 +1,7 @@
 import { Plugin } from "obsidian";
 import generateHighlightFieldPlugin from "./plugin";
 import { ObsidianReadabilitySettingsTab } from "./settings";
+import { ReadabilitySummaryView, VIEW_TYPE } from "./summary";
 
 export interface ObsidianReadabilitySettings {
 	defaultVisibility: "show" | "hide";
@@ -32,8 +33,14 @@ export default class ObsidianReadabilityPlugin extends Plugin {
 
 		this.addSettingTab(new ObsidianReadabilitySettingsTab(this.app, this));
 
+		this.registerView(
+			VIEW_TYPE,
+			(leaf) => new ReadabilitySummaryView(leaf, this.settings)
+		);
+
 		if (this.settings.defaultVisibility === "show") {
 			document.body.addClass(visibilityToggleClassName);
+			this.activateView();
 		}
 
 		this.addCommand({
@@ -42,14 +49,18 @@ export default class ObsidianReadabilityPlugin extends Plugin {
 			callback: () => {
 				if (document.body.hasClass(visibilityToggleClassName)) {
 					document.body.removeClass(visibilityToggleClassName);
+					this.deactivateView();
 				} else {
 					document.body.addClass(visibilityToggleClassName);
+					this.activateView();
 				}
 			},
 		});
 	}
 
-	onunload() {}
+	onunload() {
+		this.app.workspace.detachLeavesOfType(VIEW_TYPE);
+	}
 
 	async loadSettings() {
 		this.settings = Object.assign(
@@ -61,5 +72,22 @@ export default class ObsidianReadabilityPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	async activateView() {
+		this.app.workspace.detachLeavesOfType(VIEW_TYPE);
+
+		await this.app.workspace.getRightLeaf(false).setViewState({
+			type: VIEW_TYPE,
+			active: true,
+		});
+
+		this.app.workspace.revealLeaf(
+			this.app.workspace.getLeavesOfType(VIEW_TYPE)[0]
+		);
+	}
+
+	async deactivateView() {
+		this.app.workspace.detachLeavesOfType(VIEW_TYPE);
 	}
 }

@@ -8,6 +8,11 @@ import retextPassive from "retext-passive";
 import retextIntensify from "retext-intensify";
 import retextSimplify from "retext-simplify";
 import { ObsidianReadabilitySettings } from "./main";
+import { setSummary } from "./summary";
+
+export interface ReadabilitySummary {
+	[key: string]: number;
+}
 
 export const THEME_CLASS_NAMES = {
 	hardToRead: "cm-rp-readability",
@@ -47,7 +52,11 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 			const processor = initializeProcessor(settings);
 			const file = processor.processSync(tr.newDoc.sliceString(0));
 			highlights = highlights.map(tr.changes);
+			const summary: ReadabilitySummary = {};
 			for (const message of file.messages) {
+				if (!message.source) {
+					continue;
+				}
 				// Check if this range has a mark already.
 				const from = message.position?.start?.offset || 0;
 				const to = message.position?.end?.offset || 0;
@@ -72,7 +81,14 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 						],
 					});
 				}
+
+				if (summary.hasOwnProperty(message.source)) {
+					summary[message.source] += 1;
+				} else {
+					summary[message.source] = 1;
+				}
 			}
+			setSummary(summary);
 			return highlights;
 		},
 		provide: (f) => EditorView.decorations.from(f),
