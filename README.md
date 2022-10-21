@@ -15,6 +15,12 @@ Retext plugins available:
 
 [See here](https://github.com/users/patleeman/projects/1)
 
+## Disclaimer
+
+I provide no guarantees for any of this code. This plugin glues Retext to Obsidian and that's about the extent of my expertise in the field of readability.
+
+Fair warning: If you want a feature, you are more than welcome to send pull requests to this repository. I have no SLA for when or if I'll get around to it though.
+
 ## Releasing new releases
 
 -   Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
