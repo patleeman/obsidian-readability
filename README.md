@@ -1,5 +1,7 @@
 # Obsidian Readability
 
+Highly influenced by [Hemmingway Editor](https://hemingwayapp.com/) this plugin attempts to add similar functionality to Obsidian.
+
 This plugin leverages [Retext](https://github.com/retextjs/retext) and its amazing plugin ecosystem to suggest improvements to your writing. It will highlight text in Obsidian and provide mouseover tooltips on improvements you can make to your writing.
 
 Retext plugins available:
