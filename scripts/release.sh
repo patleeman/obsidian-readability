@@ -4,7 +4,7 @@
 NEW_VERSION=$1
 
 if [ -z "$NEW_VERSION" ]; then
-    NEW_VERSION=$(jq -r ".version" manifest.json | awk -F. -v OFS=. '{$NF += 1 ; print}')
+    exit 1;
 fi
 
 # Rebuild the project to prepare for a release.
