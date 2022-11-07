@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-readability",
 	"name": "Obsidian Readability",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"minAppVersion": "1.0.0",
 	"description": "Obsidian Readability",
 	"author": "Patrick Lee",
