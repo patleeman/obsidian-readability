@@ -65,7 +65,8 @@ function generateHighlightFieldPlugin(settings: ObsidianReadabilitySettings) {
 				);
 				let skip = false;
 				highlights.between(from, to, (from, to, value) => {
-					if (value.class === elementClass) {
+					// TODO: Fix this type
+					if ((value as any).class === elementClass) {
 						skip = true;
 						return false;
 					}
